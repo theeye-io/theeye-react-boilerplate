@@ -2,17 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import Login from "./login";
+import LoginPage from "./login";
 import { Provider } from "react-redux";
 import store from "./apis/store";
 
 ReactDOM.render(
 	<React.StrictMode>
-		<body>
-			<Provider store={store}>
-				<Login></Login>
-			</Provider>
-		</body>
+		<Provider store={store}>
+			<LoginPage></LoginPage>
+		</Provider>
 	</React.StrictMode>,
 	document.getElementById("root")
 );

@@ -6,7 +6,7 @@ const defaultConfigs = {
 }
 
 export default (() => {
-	let configs // FIXME: De dónde sale esto?
+	// let configs // FIXME: De dónde sale esto?
 	/* if(window && window.configs) FIXME: Property 'configs' does not exist on type 'Window & typeof globalThis'
 		return Object.assign({}, defaultConfigs, window.configs);
 	else */ // TODO: Implementar esto

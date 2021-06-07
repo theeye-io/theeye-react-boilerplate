@@ -1,19 +1,27 @@
 import React, { useState } from "react";
 import "./login.scss";
-import { login, logout } from "./apis/session/session.slice";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "./apis/store";
+import { Login } from "./apis/session/session.handler";
+import store from "./apis/store";
 
-export default function Login() {
-	const dispatch = useDispatch();
-	const session = useSelector((state: RootState) => state.session);
+export default function LoginPage() {
 	const [user, setUser] = useState("");
 	const [pass, setPass] = useState("");
 
-	const Login = (email: string, passw: string) => {
-		dispatch(login({ payload: [email, passw] }));
-		console.log(session);
+	const btnLogin = (email: string, passw: string) => {
+		Login(email, passw);
 	};
+
+	const handleState = () => {
+		const state = store.getState();
+		console.log(state);
+		if (state.session.isLoggedIn) {
+			console.log("Is logged in!");
+		}
+	};
+
+	handleState();
+
+	store.subscribe(handleState);
 
 	return (
 		<div className="container">
@@ -48,7 +56,7 @@ export default function Login() {
 					></input>
 					<button
 						className="submit-btn"
-						onClick={() => Login(user, pass)}
+						onClick={() => btnLogin(user, pass)}
 					>
 						SIGN IN
 					</button>
