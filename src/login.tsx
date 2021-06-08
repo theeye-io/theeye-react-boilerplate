@@ -2,10 +2,13 @@ import React, { useState } from "react";
 import "./login.scss";
 import { Login } from "./apis/session/session.handler";
 import store from "./apis/store";
+import { useHistory, withRouter } from "react-router-dom";
 
-export default function LoginPage() {
+function LoginPage() {
 	const [user, setUser] = useState("");
 	const [pass, setPass] = useState("");
+
+	const history = useHistory()
 
 	const btnLogin = (email: string, passw: string) => {
 		Login(email, passw);
@@ -16,10 +19,10 @@ export default function LoginPage() {
 		console.log(state);
 		if (state.session.isLoggedIn) {
 			console.log("Is logged in!");
+			history.push("/main")
 		}
 	};
 
-	handleState();
 
 	store.subscribe(handleState);
 
@@ -69,3 +72,5 @@ export default function LoginPage() {
 		</div>
 	);
 }
+
+export default withRouter(LoginPage)
