@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import "./login.scss";
 import { Login } from "./apis/session/session.handler";
 import store from "./apis/store";
-import { useHistory, withRouter } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
+import logo from "./assets/logo.png"
 
 function LoginPage() {
 	const [user, setUser] = useState("");
@@ -23,13 +25,12 @@ function LoginPage() {
 		}
 	};
 
-
 	store.subscribe(handleState);
 
 	return (
 		<div className="container">
 			<div className="logo">
-				<img src="./assets/logo.png" alt="TheEye" />
+				<img src={logo} alt="TheEye" />
 				<p>
 					Adding value to humen talent by automating repetitive tasks.
 				</p>
@@ -63,6 +64,8 @@ function LoginPage() {
 					>
 						SIGN IN
 					</button>
+					<a href="/password/reset">Forgot your password?</a>
+					<a href="/register">Don't have an account? Register here</a>
 				</div>
 			</div>
 			<footer className="footer">
@@ -73,4 +76,4 @@ function LoginPage() {
 	);
 }
 
-export default withRouter(LoginPage)
+export default LoginPage

@@ -5,6 +5,8 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import LoginPage from "./login";
 import MainPage from "./main";
+import RegisterPage from "./register";
+import PasswordResetPage from "./pwdReset";
 import { Provider } from "react-redux";
 import store from "./apis/store";
 
@@ -15,14 +17,15 @@ const HandleInitialState = () => {
 		console.log(state);
 		if (state.session.isLoggedIn) 
 			history.push("/main");
-	 	else history.push("/login")
+	 	else history.push("/login");
 		
 	};
-
 	store.subscribe(handleState);
-	return(
-		<script>handleState</script>
-	)
+	return <></>
+}
+
+const FourOhFour = () => {
+	return <h1>404</h1>
 }
 
 ReactDOM.render(
@@ -33,6 +36,9 @@ ReactDOM.render(
 					<Route exact path="/" component={HandleInitialState}></Route>
 					<Route path="/login" component={LoginPage}></Route>
 					<Route path="/main" component={MainPage}></Route>
+					<Route path="/register" component={RegisterPage}></Route>
+					<Route path="/password/reset" component={PasswordResetPage}></Route>
+					<Route path="*" component={FourOhFour}></Route>
 				</Switch>
 			</BrowserRouter>
 		</Provider>

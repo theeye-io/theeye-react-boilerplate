@@ -1,4 +1,3 @@
-//@ts-ignore
 import http from "superagent";
 import config from "../config/config";
 
@@ -8,37 +7,83 @@ import { storeLogin, storeLogout } from "./session.slice";
 const gateway = config.api.gateway;
 
 type cookie =
-	| {
-			email: string;
-			token: string;
-			credential: string;
-	  }
-	| undefined;
+    | {
+          email: string;
+          token: string;
+          credential: string;
+      }
+    | undefined;
 
 export function Login(mail: string, pass: string) {
-	if (mail && pass) {
-		const url = gateway + "/auth/login";
-		http.post(url)
-			.set("accept", "application/json")
-			.set("content-type", "application/json")
-			.auth(mail, pass)
-			.end((err: any, response: any) => {
-				if (err) {
-					if (err.status === 401) {
-						// window.app.loader.hide(); //TODO: Implement
-						return;
-					}
-				}
-				const c: cookie = {
-					email: mail,
-					token: response.body.access_token,
-					credential: response.body.credential,
-				};
-				store.dispatch(storeLogin({ payload: c }));
-			});
-	}
+    if (mail && pass) {
+        const url = gateway + "/auth/login";
+        http.post(url)
+            .set("accept", "application/json")
+            .set("content-type", "application/json")
+            .auth(mail, pass)
+            .end((err: any, response: any) => {
+                if (err) {
+                    if (err.status === 401) {
+                        // window.app.loader.hide(); //TODO: Implement
+                        return;
+                    }
+                }
+                const c: cookie = {
+                    email: mail,
+                    token: response.body.access_token,
+                    credential: response.body.credential,
+                };
+                store.dispatch(storeLogin({ payload: c }));
+            });
+    }
 }
 
 export function Logout() {
-	store.dispatch(storeLogout());
+    store.dispatch(storeLogout());
+}
+
+export function Register(user: string, mail: string) {
+    if (user && mail) {
+        const url = gateway + "/registration/register";
+        const packet = {
+            email: mail,
+            name: user,
+            username: mail,
+        };
+        http.post(url)
+            .set("accept", "application/json")
+            .set("content-type", "application/json")
+            .send(packet)
+			.end((err: any, response: any) => {
+				if (err) {
+                    if (err.status === 401) {
+                        // window.app.loader.hide(); //TODO: Implement
+                        return;
+                    }
+                } else {
+					console.log("Registered!")
+				}
+			});
+    }
+}
+
+export function recover(mail: string) {
+	if(mail) {
+		const url = gateway + "/auth/password/recover";
+		const packet = {email:mail}
+		http.post(url)
+		.set("accept", "application/json")
+		.set("content-type", "application/json")
+		.send(packet)
+		.end((err: any, response: any) => {
+			if (err) {
+				if (err.status === 401) {
+					// window.app.loader.hide(); //TODO: Implement
+					return;
+				}
+			} else {
+				console.log("Sent password reset")
+			}
+		});
+	}
 }
