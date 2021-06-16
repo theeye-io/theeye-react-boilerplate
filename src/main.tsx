@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory, withRouter } from 'react-router-dom';
-import { Logout } from './apis/session/session.handler';
+import { Logout, getProfile } from './apis/session/session.handler';
 import store from "./apis/store";
 
 function MainPage() {
@@ -9,7 +9,7 @@ function MainPage() {
     const handleState = () => {
 		const state = store.getState();
 		console.log(state);
-		if (state.session.isLoggedIn == false) {
+		if (!state.session.profile) {
 			console.log("Is logged out!");
             history.push("/login")
 		}
@@ -21,6 +21,7 @@ function MainPage() {
         <div>
             <h1>Logged in!</h1>
             <button onClick={Logout}>Log out</button>
+            <button onClick={() => getProfile(()=>{console.log(store.getState())})}>test</button>
         </div>
     );
 }

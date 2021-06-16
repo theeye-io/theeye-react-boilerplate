@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import sessionReducer from "./session/session.slice";
+import indicatorsReducer from "./indicators/indicators.slice";
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
@@ -13,6 +14,7 @@ const perSessionReducer = persistReducer(persistConfig, sessionReducer);
 export const store = configureStore({
 	reducer: {
 		session: perSessionReducer,
+		indicators: indicatorsReducer
 	},
 });
 

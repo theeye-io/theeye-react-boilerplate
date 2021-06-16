@@ -1,31 +1,65 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type cookie =
-	| {
-			email: string;
-			token: string;
-			credential: string;
-	  }
-	| undefined;
+export type cookie =
+    | {
+          payload: cookie | undefined;
+          email: string;
+          token: string;
+          credential: string;
+      }
+    | undefined;
+
+export type profile =
+    | {
+          payload: profile | undefined;
+          id: string;
+          customers: [{ name: string; id: string }];
+          name: string;
+          username: string;
+          email: string;
+          onboardingCompleted: boolean;
+          current_customer: {
+              id: string;
+              name: string;
+              display_name: string;
+              config: {
+                  elasticsearch: { enabled: boolean; url: string };
+                  kibana: { enabled: boolean; url: string };
+              };
+          };
+          notifications: {
+              mute: boolean;
+              push: boolean;
+              email: boolean;
+              desktop: boolean;
+          };
+          credential: string;
+          protocol: string;
+          member_id: string;
+      }
+    | undefined;
 
 export const sessionSlice = createSlice({
-	name: "session",
-	initialState: {
-		isLoggedIn: false as boolean,
-		session: undefined as cookie,
-	},
-	reducers: {
-		storeLogin: (state, action) => {
-			state.session = action.payload;
-			state.isLoggedIn = true;
-		},
-		storeLogout: (state) => {
-			state.isLoggedIn = false;
-			state.session = undefined;
-		},
-	},
+    name: "session",
+    initialState: {
+        session: undefined as cookie,
+        profile: undefined as profile,
+    },
+    reducers: {
+        storeLogin: (state, action) => {
+            state.session = action.payload;
+        },
+        storeLogout: (state) => {
+            state.session = undefined;
+            state.profile = undefined;
+        },
+        storeProfile: (state, action) => {
+			console.log(action.payload)
+            state.profile = action.payload;
+        },
+    },
 });
 
-export const { storeLogin, storeLogout } = sessionSlice.actions;
+export const { storeLogin, storeLogout, storeProfile } = sessionSlice.actions;
 
 export default sessionSlice.reducer;

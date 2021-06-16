@@ -3,8 +3,11 @@ import "./login.scss";
 import { Login } from "./apis/session/session.handler";
 import store from "./apis/store";
 import { useHistory } from "react-router-dom";
+import queryParams from "./apis/queryParams";
 
 import logo from "./assets/logo.png"
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNjBiNjMwYTRkNmRmM2MwMDEyNzBhMjU5IiwiaWF0IjoxNjIzNDQxMDk0LCJleHAiOjE2MjM0NTE4OTR9.ywyHiQGs-BnwuVExvG9jZqgNjw6xDS-EJLVPEyacKXk
 
 function LoginPage() {
 	const [user, setUser] = useState("");
@@ -16,12 +19,21 @@ function LoginPage() {
 		Login(email, passw);
 	};
 
+	const params = queryParams.get();
+	
+
+	console.log(params)
+	const redir = params.redirect_callback;
+
 	const handleState = () => {
 		const state = store.getState();
 		console.log(state);
-		if (state.session.isLoggedIn) {
+		if (state.session.profile) {
 			console.log("Is logged in!");
-			history.push("/main")
+			if (redir)
+				window.location.href = redir + "?" + queryParams.set({access_token: state.session.session?.payload?.token});
+			else
+				history.push("/main")
 		}
 	};
 
