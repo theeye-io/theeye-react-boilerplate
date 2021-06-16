@@ -10,11 +10,12 @@ const persistConfig = {
 };
 
 const perSessionReducer = persistReducer(persistConfig, sessionReducer);
+const perIndicatorsReducer = persistReducer(persistConfig, indicatorsReducer);
 
 export const store = configureStore({
 	reducer: {
 		session: perSessionReducer,
-		indicators: indicatorsReducer
+		indicators: perIndicatorsReducer
 	},
 });
 

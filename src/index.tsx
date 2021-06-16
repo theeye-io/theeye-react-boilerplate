@@ -54,6 +54,7 @@ ReactDOM.render(
                             component={TokenLoginPage}
                         ></Route>
                         <Route path="/main" component={IndicatorsDashboard}></Route>
+                        <Route path="/logout" component={MainPage}></Route>
                         <Route
                             path="/register"
                             component={RegisterPage}
