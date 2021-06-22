@@ -1,50 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { Children, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { fetchIndicators, getIndicators } from "./apis/indicators/indicators.handler";
 import store from "./apis/store";
-import indicatorsSlice, {
-    indicators,
-} from "./apis/indicators/indicators.slice";
-import { fetchIndicators } from "./apis/indicators/indicators.handler";
 import Graph from "./indicatorsGraph";
-import { dataViewed } from "./apis/indicators/indicators.slice";
+import { removeAll, dataViewed } from "./apis/indicators/indicators.slice";
 
-export default function IndicatorsDashboard(props: any) {
-    const [graphList, setGraphList] = useState<any>([<Graph/>,<Graph/>,<Graph/>]);
+const IndicatorsDashboard = () => {
+    const indArray = useSelector(getIndicators)
+    const objs = (() => {try {
+        return indArray.map((d: any) => <Graph id={d.id} />)
+    } catch (error) {
+        return <h1>No indicators</h1>
+    }})();
 
-    // const handleState = () => {
-    //     const state = store.getState();
-    //     if (!state.indicators.wasRead) {
-    //         //@ts-ignore
-    //         const indicators = state.indicators.indicators["payload"];
+    useEffect(() => {
+        if (store.getState().indicators.wasRead == false) {
+            store.dispatch(dataViewed())
+            window.location.reload() 
+            // This fixes a glitch with Plotly where Waterfall graphs wouldn't render on hook 
+        }
+    })
 
-    //         const arr = indicators?.map((d: any) => <Graph id={d.id} />);
-    //         console.log(arr)
-    //         setGraphList(arr);
-    //         store.dispatch(dataViewed());
+    const fetch = () => fetchIndicators()
+    const clean = () => store.dispatch(removeAll())
 
-    //     }
-    // };
-
-    //@ts-ignore
-    const indicators = store.getState().indicators.indicators["payload"]
-    const arr = indicators?.map((d: any) => <Graph id={d.id} />)
-    // store.subscribe(handleState);
-
-    // useEffect(() => {
-    //     console.log(graphList);
-    //     //@ts-ignore
-    //     graphList.forEach(g => {
-    //         console.log(g)
-    //     });
-    // }, [graphList]);
-
-    // useEffect(() => {
-    //     const timer = setTimeout(() => {
-    //         fetchIndicators();
-    //     }, 1000);
-    //     return () => clearTimeout(timer);
-    // }, []);
-
-    const pointer = [...graphList]
-    //@ts-ignore
-    return <div className="indicatorDashboard">{arr}</div>;
+    return <>
+        <button onClick={fetch}>fetch</button>
+        <button onClick={clean}>clean</button>
+        <div className="indicatorDashboard">
+            {objs}
+        </div>
+    </>;
 }
+
+
+// export default React.memo(IndicatorsDashboard)
+export default IndicatorsDashboard

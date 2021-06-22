@@ -30,7 +30,7 @@ function LoginPage() {
 		console.log(state);
 		if (state.session.profile) {
 			console.log("Is logged in!");
-			if (redir)
+			if (redir != undefined)
 				window.location.href = redir + "?" + queryParams.set({access_token: state.session.session?.payload?.token});
 			else
 				history.push("/main")

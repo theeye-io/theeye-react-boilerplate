@@ -24,6 +24,9 @@ export function fetchIndicators() {
                 }
                 console.log(response.body);
                 store.dispatch(setIndicator({payload: response.body}));
+                return(response.body)
             });
     }
 }
+
+export const getIndicators = (state:any) => state.indicators.indicators

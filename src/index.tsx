@@ -12,7 +12,7 @@ import IndicatorsDashboard from "./indicatorsDashboard";
 import { Provider } from "react-redux";
 import store from "./apis/store";
 import { getProfile } from "./apis/session/session.handler";
-import indicatorsSlice from "./apis/indicators/indicators.slice";
+import { fetchIndicators } from "./apis/indicators/indicators.handler";
 
 let alreadyChecked = false;
 
@@ -26,7 +26,8 @@ const HandleInitialState = () => {
                 alreadyChecked = true;
             });
         }
-        if (state.session.profile) history.push("/main");
+        if (state.session.profile) 
+            history.push("/main")
         else history.push("/login");
     };
     store.subscribe(handleState);
