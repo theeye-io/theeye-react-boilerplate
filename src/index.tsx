@@ -8,11 +8,9 @@ import TokenLoginPage from "./tokenLogin";
 import MainPage from "./main";
 import RegisterPage from "./register";
 import PasswordResetPage from "./pwdReset";
-import IndicatorsDashboard from "./indicatorsDashboard";
 import { Provider } from "react-redux";
 import store from "./apis/store";
 import { getProfile } from "./apis/session/session.handler";
-import { fetchIndicators } from "./apis/indicators/indicators.handler";
 
 let alreadyChecked = false;
 
@@ -54,8 +52,7 @@ ReactDOM.render(
                             path="/tokenlogin"
                             component={TokenLoginPage}
                         ></Route>
-                        <Route path="/main" component={IndicatorsDashboard}></Route>
-                        <Route path="/logout" component={MainPage}></Route>
+                        <Route path="/main" component={MainPage}></Route>
                         <Route
                             path="/register"
                             component={RegisterPage}

@@ -43,7 +43,7 @@ export const sessionSlice = createSlice({
     name: "session",
     initialState: {
         session: undefined as cookie,
-        profile: undefined as profile,
+        profile: null as profile,
     },
     reducers: {
         storeLogin: (state, action) => {
@@ -51,11 +51,11 @@ export const sessionSlice = createSlice({
         },
         storeLogout: (state) => {
             state.session = undefined;
-            state.profile = undefined;
+            state.profile = null;
         },
         storeProfile: (state, action) => {
 			console.log(action.payload)
-            state.profile = action.payload;
+            state.profile = action.payload.payload;
         },
     },
 });
